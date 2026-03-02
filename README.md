@@ -1,8 +1,5 @@
 # 🎬 FilmOS - Digital Film Operating System
 
-<div align="center">
-
-![FilmOS Logo](public/logo.svg)
 
 **The Complete Film Production Ecosystem - From Script to Screen**
 
