@@ -8,299 +8,467 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Progress } from '@/components/ui/progress'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { 
-  Video, 
-  Megaphone, 
-  TrendingUp, 
-  BarChart3, 
-  Target, 
+  Brain, 
   Zap, 
+  Target, 
+  TrendingUp, 
+  Activity, 
+  BarChart3, 
+  PieChart, 
+  LineChart, 
+  Calendar, 
+  Clock, 
+  CheckCircle, 
+  AlertTriangle, 
+  Eye, 
   Play, 
-  Download,
-  Plus,
-  Eye,
-  CheckCircle,
-  Clock,
-  AlertTriangle,
-  Award,
-  Share2,
-  Globe,
-  Users,
-  Calendar,
-  Filter,
-  Search,
-  Music,
-  Image,
-  Film,
-  Tv,
-  Radio,
-  Smartphone,
-  Monitor,
-  Palette,
-  Edit,
-  RefreshCw,
-  Sparkles,
-  Brain
+  Pause, 
+  Square, 
+  RefreshCw, 
+  Download, 
+  Upload, 
+  Settings, 
+  Plus, 
+  Edit, 
+  Trash, 
+  Copy, 
+  Share, 
+  Facebook, 
+  Twitter, 
+  Instagram, 
+  Youtube, 
+  Linkedin, 
+  Mail, 
+  MessageSquare, 
+  Send, 
+  Filter, 
+  Search, 
+  Bell, 
+  Users, 
+  Globe, 
+  Smartphone, 
+  Monitor, 
+  Tv, 
+  Radio, 
+  Headphones, 
+  Volume2, 
+  Wifi, 
+  HardDrive, 
+  Cpu, 
+  MemoryStick, 
+  Camera, 
+  Video, 
+  Film, 
+  Music, 
+  Mic, 
+  Image, 
+  FileText, 
+  File, 
+  Folder, 
+  Tag, 
+  Hash, 
+  Link, 
+  ExternalLink, 
+  ArrowRight, 
+  ArrowUp, 
+  ArrowDown, 
+  MoreHorizontal, 
+  MoreVertical
 } from 'lucide-react'
-
-interface Campaign {
-  id: string
-  name: string
-  type: 'theatrical_release' | 'streaming_launch' | 'festival_circuit' | 'awards_season' | 'international' | 'social_media'
-  status: 'draft' | 'active' | 'paused' | 'completed'
-  project: string
-  budget: number
-  spent: number
-  startDate: string
-  endDate: string
-  assets: MarketingAsset[]
-  performance: CampaignPerformance
-  target_audience: string[]
-  channels: string[]
-  created_by: string
-  last_modified: string
-}
 
 interface MarketingAsset {
   id: string
-  type: 'trailer' | 'poster' | 'social' | 'press' | 'clip' | 'behind_scenes'
-  title: string
-  description: string
-  url: string
-  thumbnail: string
-  duration?: number
-  format: string
-  size: number
-  resolution: string
-  language: string
-  tags: string[]
+  name: string
+  type: 'trailer' | 'poster' | 'social_media' | 'press_kit' | 'bts' | 'email_template' | 'landing_page'
+  status: 'draft' | 'generating' | 'ready' | 'published' | 'archived'
+  project: string
+  campaign: string
   created_at: string
+  updated_at: string
+  published_at?: string
   performance: {
     views: number
     engagement: number
-    shares: number
     clicks: number
-    conversion_rate: number
+    shares: number
+    conversions: number
+    roi: number
+  }
+  content: {
+    title: string
+    description: string
+    duration?: number
+    file_url?: string
+    thumbnail_url?: string
+    tags: string[]
+    ai_generated: boolean
+    confidence_score?: number
+  }
+  distribution: {
+    platforms: string[]
+    scheduled_posts: ScheduledPost[]
+    published_posts: PublishedPost[]
+    performance_metrics: PerformanceMetrics[]
   }
 }
 
-interface CampaignPerformance {
-  impressions: number
-  engagement: number
-  shares: number
-  clicks: number
-  conversions: number
-  roi: number
-  cost_per_acquisition: number
-  reach: number
-  frequency: number
-  sentiment: 'positive' | 'neutral' | 'negative'
-  demographics: {
-    age_groups: Record<string, number>
-    genders: Record<string, number>
-    locations: Record<string, number>
-  }
-}
-
-interface AIInsight {
+interface ScheduledPost {
   id: string
-  campaign_id: string
-  type: 'optimization' | 'trend' | 'recommendation' | 'alert'
-  title: string
-  description: string
-  confidence: number
-  impact: 'high' | 'medium' | 'low'
-  action_required: boolean
-  suggested_actions: string[]
-  potential_improvement: number
-  created_at: string
-}
-
-interface SocialMediaPost {
-  id: string
-  platform: 'facebook' | 'twitter' | 'instagram' | 'tiktok' | 'youtube' | 'linkedin'
+  platform: string
   content: string
-  media_url?: string
   scheduled_time: string
   status: 'scheduled' | 'posted' | 'failed'
-  performance: {
-    likes: number
-    shares: number
-    comments: number
-    views: number
-    engagement_rate: number
-  }
+  media_urls: string[]
   hashtags: string[]
   mentions: string[]
 }
 
+interface PublishedPost {
+  id: string
+  platform: string
+  post_url: string
+  published_time: string
+  engagement: {
+    likes: number
+    comments: number
+    shares: number
+    views: number
+  }
+  performance: {
+    click_through_rate: number
+    conversion_rate: number
+    reach: number
+    impressions: number
+  }
+}
+
+interface PerformanceMetrics {
+  id: string
+  platform: string
+  metric_type: 'engagement' | 'reach' | 'impressions' | 'clicks' | 'conversions' | 'roi'
+  value: number
+  period: string
+  benchmark: number
+  change_percentage: number
+}
+
+interface Campaign {
+  id: string
+  name: string
+  type: 'awareness' | 'engagement' | 'conversion' | 'retention'
+  status: 'planning' | 'active' | 'paused' | 'completed'
+  start_date: string
+  end_date: string
+  budget: number
+  spent: number
+  target_audience: string[]
+  platforms: string[]
+  assets: string[]
+  performance: {
+    reach: number
+    engagement_rate: number
+    click_through_rate: number
+    conversion_rate: number
+    roi: number
+    cost_per_acquisition: number
+    cost_per_impression: number
+    cost_per_click: number
+    cost_per_engagement: number
+  }
+  automation: {
+    triggers: CampaignTrigger[]
+    workflows: CampaignWorkflow[]
+    optimization: boolean
+    a_b_testing: boolean
+  }
+}
+
+interface CampaignTrigger {
+  id: string
+  type: 'time_based' | 'event_based' | 'performance_based' | 'audience_based'
+  condition: string
+  action: string
+  enabled: boolean
+  last_triggered?: string
+}
+
+interface CampaignWorkflow {
+  id: string
+  name: string
+  steps: WorkflowStep[]
+  status: 'active' | 'paused' | 'completed'
+  current_step: number
+  progress: number
+}
+
+interface WorkflowStep {
+  id: string
+  name: string
+  type: 'content_creation' | 'publication' | 'engagement' | 'analysis' | 'optimization'
+  status: 'pending' | 'in_progress' | 'completed' | 'failed'
+  result?: any
+  error?: string
+}
+
+interface AIInsight {
+  id: string
+  type: 'performance_prediction' | 'audience_analysis' | 'content_optimization' | 'trend_analysis' | 'competitive_analysis'
+  title: string
+  description: string
+  confidence: number
+  data_points: number[]
+  recommendations: string[]
+  potential_impact: 'high' | 'medium' | 'low'
+  implementation_difficulty: 'easy' | 'medium' | 'hard'
+  estimated_roi: number
+  timeframe: string
+}
+
 export default function AIMarketingAutomationSuite() {
-  const [selectedTab, setSelectedTab] = useState('campaigns')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedType, setSelectedType] = useState('all')
-  const [isGenerating, setIsGenerating] = useState(false)
+  const [selectedTab, setSelectedTab] = useState('overview')
+  const [selectedCampaign, setSelectedCampaign] = useState<string>('')
+  const [selectedAsset, setSelectedAsset] = useState<string>('')
 
   const [campaigns] = useState<Campaign[]>([
     {
       id: '1',
-      name: 'Digital Revolution - Theatrical Release',
-      type: 'theatrical_release',
+      name: 'Summer Blockbuster Campaign',
+      type: 'awareness',
       status: 'active',
-      project: 'Digital Revolution',
+      start_date: '2024-06-01',
+      end_date: '2024-08-31',
       budget: 500000,
-      spent: 325000,
-      startDate: '2024-12-01',
-      endDate: '2024-12-31',
-      target_audience: ['sci-fi fans', 'tech enthusiasts', 'general audience'],
-      channels: ['theatrical', 'social_media', 'press', 'online_ads'],
-      created_by: 'Marketing Team',
-      last_modified: '2024-03-20',
+      spent: 275000,
+      target_audience: ['18-35', 'action_movie_fans', 'sci-fi_enthusiasts'],
+      platforms: ['facebook', 'instagram', 'twitter', 'youtube', 'tiktok'],
+      assets: ['trailer_1', 'poster_1', 'social_media_1'],
       performance: {
-        impressions: 25000000,
-        engagement: 8500000,
-        shares: 125000,
-        clicks: 875000,
-        conversions: 12500,
-        roi: 185,
-        cost_per_acquisition: 26.00,
-        reach: 15000000,
-        frequency: 3.2,
-        sentiment: 'positive',
-        demographics: {
-          age_groups: { '18-24': 15, '25-34': 35, '35-44': 30, '45+': 20 },
-          genders: { 'male': 52, 'female': 46, 'other': 2 },
-          locations: { 'North America': 60, 'Europe': 25, 'Asia': 15 }
-        }
+        reach: 2500000,
+        engagement_rate: 0.085,
+        click_through_rate: 0.032,
+        conversion_rate: 0.015,
+        roi: 2.45,
+        cost_per_acquisition: 12.50,
+        cost_per_impression: 0.11,
+        cost_per_click: 0.89,
+        cost_per_engagement: 10.45
+      },
+      automation: {
+        triggers: [
+          {
+            id: '1-1',
+            type: 'performance_based',
+            condition: 'engagement_rate < 0.05',
+            action: 'optimize_content',
+            enabled: true,
+            last_triggered: '2024-06-15'
+          }
+        ],
+        workflows: [
+          {
+            id: '1-1',
+            name: 'Content Publication Workflow',
+            steps: [
+              {
+                id: '1-1-1',
+                name: 'Create Social Media Posts',
+                type: 'content_creation',
+                status: 'completed'
+              },
+              {
+                id: '1-1-2',
+                name: 'Schedule Posts',
+                type: 'publication',
+                status: 'completed'
+              },
+              {
+                id: '1-1-3',
+                name: 'Monitor Performance',
+                type: 'analysis',
+                status: 'in_progress'
+              }
+            ],
+            status: 'active',
+            current_step: 3,
+            progress: 66
+          }
+        ],
+        optimization: true,
+        a_b_testing: true
       }
     },
     {
       id: '2',
-      name: 'Mystery Thriller - Streaming Launch',
-      type: 'streaming_launch',
-      status: 'draft',
-      project: 'Mystery Thriller',
-      budget: 300000,
+      name: 'Indie Film Festival Push',
+      type: 'engagement',
+      status: 'planning',
+      start_date: '2024-09-01',
+      end_date: '2024-10-15',
+      budget: 250000,
       spent: 0,
-      startDate: '2024-06-01',
-      endDate: '2024-06-30',
-      target_audience: ['crime drama fans', 'thriller enthusiasts', 'streaming subscribers'],
-      channels: ['streaming', 'social_media', 'influencer'],
-      created_by: 'Marketing Team',
-      last_modified: '2024-03-19',
+      target_audience: ['25-45', 'independent_film_lovers', 'festival_attendees'],
+      platforms: ['instagram', 'twitter', 'facebook', 'linkedin'],
+      assets: ['festival_trailer', 'press_kit', 'email_template'],
       performance: {
-        impressions: 0,
-        engagement: 0,
-        shares: 0,
-        clicks: 0,
-        conversions: 0,
+        reach: 0,
+        engagement_rate: 0,
+        click_through_rate: 0,
+        conversion_rate: 0,
         roi: 0,
         cost_per_acquisition: 0,
-        reach: 0,
-        frequency: 0,
-        sentiment: 'neutral',
-        demographics: {
-          age_groups: { '18-24': 20, '25-34': 40, '35-44': 30, '45+': 10 },
-          genders: { 'male': 55, 'female': 43, 'other': 2 },
-          locations: { 'North America': 70, 'Europe': 20, 'Asia': 10 }
-        }
+        cost_per_impression: 0,
+        cost_per_click: 0,
+        cost_per_engagement: 0
+      },
+      automation: {
+        triggers: [],
+        workflows: [],
+        optimization: false,
+        a_b_testing: false
       }
-    },
-    {
-      id: '3',
-      name: 'Romantic Comedy - Festival Circuit',
-      type: 'festival_circuit',
-      status: 'completed',
-      project: 'Romantic Comedy',
-      budget: 150000,
-      spent: 142000,
-      startDate: '2024-01-15',
-      endDate: '2024-04-15',
-      target_audience: ['rom-com fans', 'festival attendees', 'critics'],
-      channels: ['festivals', 'social_media', 'press'],
-      created_by: 'Marketing Team',
-      last_modified: '2024-04-16',
-      performance: {
-        impressions: 8500000,
-        engagement: 2100000,
-        shares: 45000,
-        clicks: 320000,
-        conversions: 3200,
-        roi: 225,
-        cost_per_acquisition: 44.38,
-        reach: 5000000,
-        frequency: 1.7,
-        sentiment: 'positive',
-        demographics: {
-          age_groups: { '18-24': 25, '25-34': 45, '35-44': 25, '45+': 5 },
-          genders: { 'male': 40, 'female': 58, 'other': 2 },
-          locations: { 'North America': 80, 'Europe': 15, 'Asia': 5 }
-        }
-      }
+    }
   ])
 
   const [assets] = useState<MarketingAsset[]>([
     {
-      id: '1',
+      id: 'trailer_1',
+      name: 'Quantum Dreams Official Trailer',
       type: 'trailer',
-      title: 'Digital Revolution - Official Trailer',
-      description: '2:30 theatrical trailer with AI-enhanced visuals',
-      url: '/api/placeholder/trailer',
-      thumbnail: '/api/placeholder/400/225',
-      duration: 150,
-      format: 'mp4',
-      size: 125000000,
-      resolution: '4K',
-      language: 'en',
-      tags: ['trailer', 'official', '4k', 'ai-enhanced'],
-      created_at: '2024-11-15',
-      performance: {
-        views: 8500000,
-        engagement: 425000,
-        shares: 25000,
-        clicks: 125000,
-        conversion_rate: 1.47
-      }
-    },
-    {
-      id: '2',
-      type: 'poster',
-      title: 'Digital Revolution - Main Poster',
-      description: 'AI-generated theatrical poster with dynamic elements',
-      url: '/api/placeholder/poster',
-      thumbnail: '/api/placeholder/300/450',
-      format: 'jpg',
-      size: 2500000,
-      resolution: '300 DPI',
-      language: 'en',
-      tags: ['poster', 'theatrical', 'ai-generated'],
-      created_at: '2024-11-10',
-      performance: {
-        views: 2500000,
-        engagement: 125000,
-        shares: 15000,
-        clicks: 75000,
-        conversion_rate: 3.0
-      }
-    },
-    {
-      id: '3',
-      type: 'social',
-      title: 'Behind the Scenes - AI Technology',
-      description: 'Short documentary on AI technology used in production',
-      url: '/api/placeholder/behind-scenes',
-      thumbnail: '/api/placeholder/400/225',
-      duration: 300,
-      format: 'mp4',
-      size: 85000000,
-      resolution: '1080p',
-      language: 'en',
-      tags: ['behind-scenes', 'technology', 'ai', 'documentary'],
-      created_at: '2024-11-20',
+      status: 'published',
+      project: 'Quantum Dreams',
+      campaign: 'Summer Blockbuster Campaign',
+      created_at: '2024-06-01',
+      updated_at: '2024-06-15',
+      published_at: '2024-06-10',
       performance: {
         views: 1500000,
-        engagement: 125000,
-        shares: 8000,
-        clicks: 25000,
-        conversion_rate: 1.67
+        engagement: 0.089,
+        clicks: 45000,
+        shares: 12000,
+        conversions: 675,
+        roi: 3.25
+      },
+      content: {
+        title: 'Quantum Dreams - Official Trailer',
+        description: 'Experience the future in this mind-bending sci-fi thriller',
+        duration: 145,
+        file_url: '/api/placeholder/trailer',
+        thumbnail_url: '/api/placeholder/thumbnail',
+        tags: ['sci-fi', 'thriller', 'action', 'summer_blockbuster'],
+        ai_generated: false,
+        confidence_score: 0
+      },
+      distribution: {
+        platforms: ['youtube', 'facebook', 'instagram', 'tiktok'],
+        scheduled_posts: [
+          {
+            id: '1-1',
+            platform: 'youtube',
+            content: 'Experience the future in #QuantumDreams - Official Trailer',
+            scheduled_time: '2024-06-10T10:00:00Z',
+            status: 'posted',
+            media_urls: ['/api/placeholder/trailer'],
+            hashtags: ['#QuantumDreams', '#SciFi', '#MovieTrailer', '#SummerBlockbuster'],
+            mentions: ['@QuantumDreamsMovie', '@DirectorSmith']
+          }
+        ],
+        published_posts: [
+          {
+            id: '1-1',
+            platform: 'youtube',
+            post_url: 'https://youtube.com/watch?v=example',
+            published_time: '2024-06-10T10:00:00Z',
+            engagement: {
+              likes: 45000,
+              comments: 1200,
+              shares: 800,
+              views: 1500000
+            },
+            performance: {
+              click_through_rate: 0.03,
+              conversion_rate: 0.00045,
+              reach: 2500000,
+              impressions: 5000000
+            }
+          }
+        ],
+        performance_metrics: []
+      }
+    },
+    {
+      id: 'poster_1',
+      name: 'Quantum Dreams Theatrical Poster',
+      type: 'poster',
+      status: 'published',
+      project: 'Quantum Dreams',
+      campaign: 'Summer Blockbuster Campaign',
+      created_at: '2024-05-15',
+      updated_at: '2024-05-20',
+      published_at: '2024-06-01',
+      performance: {
+        views: 850000,
+        engagement: 0.092,
+        clicks: 28000,
+        shares: 8500,
+        conversions: 420,
+        roi: 2.85
+      },
+      content: {
+        title: 'Quantum Dreams',
+        description: 'The future is closer than you think',
+        file_url: '/api/placeholder/poster',
+        thumbnail_url: '/api/placeholder/poster_thumb',
+        tags: ['poster', 'theatrical', 'sci-fi', 'thriller'],
+        ai_generated: false,
+        confidence_score: 0
+      },
+      distribution: {
+        platforms: ['facebook', 'instagram', 'twitter', 'linkedin'],
+        scheduled_posts: [],
+        published_posts: [],
+        performance_metrics: []
+      }
+    },
+    {
+      id: 'social_media_1',
+      name: 'Quantum Dreams Social Media Kit',
+      type: 'social_media',
+      status: 'ready',
+      project: 'Quantum Dreams',
+      campaign: 'Summer Blockbuster Campaign',
+      created_at: '2024-05-20',
+      updated_at: '2024-06-12',
+      performance: {
+        views: 1200000,
+        engagement: 0.078,
+        clicks: 35000,
+        shares: 15000,
+        conversions: 525,
+        roi: 2.95
+      },
+      content: {
+        title: 'Quantum Dreams Social Media Campaign',
+        description: 'Complete social media kit with images, videos, and copy',
+        tags: ['social_media', 'campaign', 'marketing', 'promotion'],
+        ai_generated: true,
+        confidence_score: 0.92
+      },
+      distribution: {
+        platforms: ['instagram', 'facebook', 'twitter', 'tiktok'],
+        scheduled_posts: [
+          {
+            id: '1-2',
+            platform: 'instagram',
+            content: 'Dream bigger. #QuantumDreams coming soon! 🚀',
+            scheduled_time: '2024-06-12T14:00:00Z',
+            status: 'scheduled',
+            media_urls: ['/api/placeholder/ig_post1', '/api/placeholder/ig_post2'],
+            hashtags: ['#QuantumDreams', '#ComingSoon', '#Movie', '#SciFi'],
+            mentions: ['@QuantumDreamsMovie']
+          }
+        ],
+        published_posts: [],
+        performance_metrics: []
       }
     }
   ])
@@ -308,138 +476,85 @@ export default function AIMarketingAutomationSuite() {
   const [aiInsights] = useState<AIInsight[]>([
     {
       id: '1',
-      campaign_id: '1',
-      type: 'optimization',
-      title: 'Increase Instagram Ad Spend',
-      description: 'AI analysis shows Instagram ads have 25% higher conversion rate than Facebook',
-      confidence: 92,
-      impact: 'high',
-      action_required: true,
-      suggested_actions: [
-        'Increase Instagram ad budget by 20%',
-        'Create Instagram-specific ad creative',
-        'Optimize posting times for Instagram audience'
+      type: 'performance_prediction',
+      title: 'Trailer Performance Prediction',
+      description: 'AI analysis predicts 15% increase in engagement with optimized thumbnail',
+      confidence: 0.89,
+      data_points: [0.085, 0.092, 0.088, 0.095, 0.091],
+      recommendations: [
+        'Use A/B testing for thumbnail optimization',
+        'Post at peak engagement times (2-4 PM)',
+        'Include more action-oriented copy'
       ],
-      potential_improvement: 15,
-      created_at: '2024-03-20'
+      potential_impact: 'high',
+      implementation_difficulty: 'easy',
+      estimated_roi: 0.15,
+      timeframe: '2 weeks'
     },
     {
       id: '2',
-      campaign_id: '1',
-      type: 'trend',
-      title: 'TikTok Engagement Rising',
-      description: 'TikTok engagement increased 40% in the last week for sci-fi content',
-      confidence: 88,
-      impact: 'medium',
-      action_required: false,
-      suggested_actions: [
-        'Create more TikTok-specific content',
-        'Engage with trending TikTok challenges',
-        'Partner with sci-fi influencers on TikTok'
+      type: 'audience_analysis',
+      title: 'Sci-Fi Audience Behavior Analysis',
+      description: 'Deep analysis reveals strong engagement with behind-the-scenes content',
+      confidence: 0.94,
+      data_points: [0.078, 0.085, 0.092, 0.088, 0.091],
+      recommendations: [
+        'Create more behind-the-scenes content',
+        'Focus on technical aspects and world-building',
+        'Engage with fan theories and discussions'
       ],
-      potential_improvement: 12,
-      created_at: '2024-03-19'
+      potential_impact: 'medium',
+      implementation_difficulty: 'medium',
+      estimated_roi: 0.12,
+      timeframe: '4 weeks'
     },
     {
       id: '3',
-      campaign_id: '2',
-      type: 'recommendation',
-      title: 'Launch Behind-the-Scenes Series',
-      description: 'Audience engagement increases 35% with behind-the-scenes content',
-      confidence: 85,
-      impact: 'medium',
-      action_required: true,
-      suggested_actions: [
-        'Create weekly behind-the-scenes episodes',
-        'Feature cast and crew interviews',
-        'Showcase production technology and process'
+      type: 'content_optimization',
+      title: 'Social Media Content Optimization',
+      description: 'AI suggests optimal posting times and content mix for maximum engagement',
+      confidence: 0.91,
+      data_points: [0.065, 0.072, 0.078, 0.085, 0.082],
+      recommendations: [
+        'Post video content on Tuesdays and Thursdays',
+        'Mix promotional with organic content (70/30 ratio)',
+        'Use Instagram Stories for real-time updates'
       ],
-      potential_improvement: 20,
-      created_at: '2024-03-18'
+      potential_impact: 'high',
+      implementation_difficulty: 'easy',
+      estimated_roi: 0.18,
+      timeframe: '1 week'
     }
   ])
 
-  const [socialPosts] = useState<SocialMediaPost[]>([
-    {
-      id: '1',
-      platform: 'twitter',
-      content: '🎬 The future is here! Digital Revolution hits theaters this December. Experience the AI-enhanced visuals that will change cinema forever. #DigitalRevolution #SciFi #AI',
-      scheduled_time: '2024-03-21 14:00:00',
-      status: 'scheduled',
-      performance: {
-        likes: 1250,
-        shares: 340,
-        comments: 89,
-        views: 0,
-        engagement_rate: 13.2
-      },
-      hashtags: ['DigitalRevolution', 'SciFi', 'AI'],
-      mentions: ['@Netflix', '@@wired']
-    },
-    {
-      id: '2',
-      platform: 'instagram',
-      content: 'Behind the scenes magic ✨ Our AI technology creates stunning visuals that will blow your mind. See how we made the impossible possible in Digital Revolution. Link in bio! #BTS #FilmTech #VFX',
-      media_url: '/api/placeholder/instagram',
-      scheduled_time: '2024-03-21 16:00:00',
-      status: 'posted',
-      performance: {
-        likes: 5600,
-        shares: 890,
-        comments: 234,
-        views: 0,
-        engagement_rate: 8.5
-      },
-      hashtags: ['BTS', 'FilmTech', 'VFX'],
-      mentions: ['@adobe', '@@nvidia']
-    },
-    {
-      id: '3',
-      platform: 'tiktok',
-      content: 'POV: You\'re the AI that brings a sci-fi world to life 🤖✨ Watch our team create movie magic with cutting-edge technology. #DigitalRevolution #BehindTheScenes #FilmMaking',
-      media_url: '/api/placeholder/tiktok',
-      scheduled_time: '2024-03-21 18:00:00',
-      status: 'posted',
-      performance: {
-        likes: 12500,
-        shares: 3400,
-        comments: 567,
-        views: 0,
-        engagement_rate: 12.8
-      },
-      hashtags: ['DigitalRevolution', 'BehindTheScenes', 'FilmMaking'],
-      mentions: ['@openai', '@@nvidia']
-    }
-  ])
-
+  const totalCampaigns = campaigns.length
+  const activeCampaigns = campaigns.filter(c => c.status === 'active').length
   const totalBudget = campaigns.reduce((sum, campaign) => sum + campaign.budget, 0)
   const totalSpent = campaigns.reduce((sum, campaign) => sum + campaign.spent, 0)
-  const activeCampaigns = campaigns.filter(c => c.status === 'active').length
-  const totalROI = campaigns.reduce((sum, campaign) => sum + campaign.performance.roi, 0) / campaigns.length
+  const averageROI = campaigns.reduce((sum, campaign) => sum + campaign.performance.roi, 0) / campaigns.length
+  const totalAssets = assets.length
+  const publishedAssets = assets.filter(a => a.status === 'published').length
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': case 'completed': case 'posted': 
+      case 'active': case 'published': case 'completed': case 'ready':
         return 'text-green-400 bg-green-900/20'
-      case 'draft': case 'scheduled': 
+      case 'planning': case 'generating':
         return 'text-yellow-400 bg-yellow-900/20'
-      case 'paused': case 'failed': 
-        return 'text-red-400 bg-red-900/20'
-      default: 
-        return 'text-gray-400 bg-gray-900/20'
+      case 'paused': case 'draft': case 'archived':
+        return 'text-orange-400 bg-orange-900/20'
+      default:
+        return 'text-slate-400 bg-slate-900/20'
     }
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'active': return <Zap className="h-4 w-4" />
-      case 'completed': return <CheckCircle className="h-4 w-4" />
-      case 'draft': return <Edit className="h-4 w-4" />
-      case 'paused': return <Clock className="h-4 w-4" />
-      case 'scheduled': return <Calendar className="h-4 w-4" />
-      case 'posted': return <Share2 className="h-4 w-4" />
-      case 'failed': return <AlertTriangle className="h-4 w-4" />
-      default: return <Megaphone className="h-4 w-4" />
+  const getCampaignTypeIcon = (type: string) => {
+    switch (type) {
+      case 'awareness': return <Eye className="h-4 w-4" />
+      case 'engagement': return <Users className="h-4 w-4" />
+      case 'conversion': return <Target className="h-4 w-4" />
+      case 'retention': return <RefreshCw className="h-4 w-4" />
+      default: return <TrendingUp className="h-4 w-4" />
     }
   }
 
@@ -447,43 +562,25 @@ export default function AIMarketingAutomationSuite() {
     switch (type) {
       case 'trailer': return <Video className="h-4 w-4" />
       case 'poster': return <Image className="h-4 w-4" />
-      case 'social': return <Smartphone className="h-4 w-4" />
-      case 'clip': return <Film className="h-4 w-4" />
-      case 'behind_scenes': return <Monitor className="h-4 w-4" />
-      default: return <FileText className="h-4 w-4" />
+      case 'social_media': return <Share className="h-4 w-4" />
+      case 'press_kit': return <FileText className="h-4 w-4" />
+      case 'bts': return <Mail className="h-4 w-4" />
+      case 'email_template': return <MessageSquare className="h-4 w-4" />
+      case 'landing_page': return <Globe className="h-4 w-4" />
+      default: return <File className="h-4 w-4" />
     }
   }
 
   const getPlatformIcon = (platform: string) => {
     switch (platform) {
-      case 'facebook': return <div className="w-4 h-4 bg-blue-600 rounded" />
-      case 'twitter': return <div className="w-4 h-4 bg-sky-500 rounded" />
-      case 'instagram': return <div className="w-4 h-4 bg-pink-600 rounded" />
-      case 'tiktok': return <div className="w-4 h-4 bg-black rounded" />
-      case 'youtube': return <div className="w-4 h-4 bg-red-600 rounded" />
-      case 'linkedin': return <div className="w-4 h-4 bg-blue-700 rounded" />
+      case 'facebook': return <Facebook className="h-4 w-4" />
+      case 'twitter': return <Twitter className="h-4 w-4" />
+      case 'instagram': return <Instagram className="h-4 w-4" />
+      case 'youtube': return <Youtube className="h-4 w-4" />
+      case 'linkedin': return <Linkedin className="h-4 w-4" />
+      case 'tiktok': return <Music className="h-4 w-4" />
       default: return <Globe className="h-4 w-4" />
     }
-  }
-
-  const getCampaignTypeIcon = (type: string) => {
-    switch (type) {
-      case 'theatrical_release': return <Film className="h-4 w-4" />
-      case 'streaming_launch': return <Tv className="h-4 w-4" />
-      case 'festival_circuit': return <Award className="h-4 w-4" />
-      case 'awards_season': return <Trophy className="h-4 w-4" />
-      case 'international': return <Globe className="h-4 w-4" />
-      case 'social_media': return <Smartphone className="h-4 w-4" />
-      default: return <Megaphone className="h-4 w-4" />
-    }
-  }
-
-  const generateTrailer = async () => {
-    setIsGenerating(true)
-    // Simulate AI trailer generation
-    setTimeout(() => {
-      setIsGenerating(false)
-    }, 3000)
   }
 
   return (
@@ -492,7 +589,7 @@ export default function AIMarketingAutomationSuite() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-white">AI Marketing Automation Suite</h2>
-          <p className="text-slate-400">Automated trailer generation and campaign analytics</p>
+          <p className="text-slate-400">AI-powered campaign management and automated content generation</p>
         </div>
         <div className="flex space-x-2">
           <Button variant="outline" size="sm">
@@ -501,7 +598,7 @@ export default function AIMarketingAutomationSuite() {
           </Button>
           <Button size="sm">
             <Plus className="h-4 w-4 mr-2" />
-            Create Campaign
+            New Campaign
           </Button>
         </div>
       </div>
@@ -512,10 +609,10 @@ export default function AIMarketingAutomationSuite() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Total Budget</p>
-                <p className="text-white font-semibold text-lg">${(totalBudget / 1000000).toFixed(1)}M</p>
+                <p className="text-slate-400 text-sm">Active Campaigns</p>
+                <p className="text-white font-semibold text-lg">{activeCampaigns}</p>
               </div>
-              <DollarSign className="h-8 w-8 text-blue-400" />
+              <Zap className="h-8 w-8 text-blue-400" />
             </div>
           </CardContent>
         </Card>
@@ -524,10 +621,10 @@ export default function AIMarketingAutomationSuite() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">Active Campaigns</p>
-                <p className="text-white font-semibold text-lg">{activeCampaigns}</p>
+                <p className="text-slate-400 text-sm">Total Budget</p>
+                <p className="text-white font-semibold text-lg">${(totalBudget / 1000000).toFixed(1)}M</p>
               </div>
-              <Zap className="h-8 w-8 text-green-400" />
+              <DollarSign className="h-8 w-8 text-green-400" />
             </div>
           </CardContent>
         </Card>
@@ -537,7 +634,7 @@ export default function AIMarketingAutomationSuite() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-400 text-sm">Average ROI</p>
-                <p className="text-white font-semibold text-lg">{totalROI.toFixed(0)}%</p>
+                <p className="text-white font-semibold text-lg">{(averageROI * 100).toFixed(1)}%</p>
               </div>
               <TrendingUp className="h-8 w-8 text-purple-400" />
             </div>
@@ -548,491 +645,51 @@ export default function AIMarketingAutomationSuite() {
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400 text-sm">AI Insights</p>
-                <p className="text-white font-semibold text-lg">{aiInsights.length}</p>
+                <p className="text-slate-400 text-sm">Published Assets</p>
+                <p className="text-white font-semibold text-lg">{publishedAssets}/{totalAssets}</p>
               </div>
-              <Brain className="h-8 w-8 text-orange-400" />
+              <Share className="h-8 w-8 text-orange-400" />
             </div>
           </CardContent>
         </Card>
       </div>
 
       <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="campaigns">Campaigns</TabsTrigger>
-          <TabsTrigger value="assets">Marketing Assets</TabsTrigger>
-          <TabsTrigger value="social">Social Media</TabsTrigger>
+          <TabsTrigger value="assets">Assets</TabsTrigger>
           <TabsTrigger value="insights">AI Insights</TabsTrigger>
-          <TabsTrigger value="analytics">Analytics</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="campaigns" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {campaigns.map((campaign) => (
-              <Card key={campaign.id} className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-1">
-                        {getCampaignTypeIcon(campaign.type)}
-                        <h3 className="text-white font-semibold">{campaign.name}</h3>
-                        <Badge variant="secondary" className={`text-xs ${getStatusColor(campaign.status)}`}>
-                          {campaign.status}
-                        </Badge>
-                      </div>
-                      <p className="text-slate-400 text-sm">{campaign.project}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white font-semibold">${(campaign.budget / 1000).toFixed(0)}K</p>
-                      <p className="text-slate-400 text-sm">{campaign.performance.roi}% ROI</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Campaign Progress */}
-                  <div>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-slate-400 text-sm">Budget Used</span>
-                      <span className="text-white text-sm">
-                        ${campaign.spent.toLocaleString()} / ${(campaign.budget / 1000).toFixed(0)}K
-                      </span>
-                    </div>
-                    <Progress value={(campaign.spent / campaign.budget) * 100} className="h-2" />
-                  </div>
-
-                  {/* Key Metrics */}
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p className="text-slate-400">Impressions</p>
-                      <p className="text-white font-medium">{(campaign.performance.impressions / 1000000).toFixed(1)}M</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">Engagement</p>
-                      <p className="text-white font-medium">{(campaign.performance.engagement / 1000000).toFixed(1)}M</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">Conversions</p>
-                      <p className="text-white font-medium">{campaign.performance.conversions.toLocaleString()}</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">ROI</p>
-                      <p className="text-white font-medium">{campaign.performance.roi}%</p>
-                    </div>
-                  </div>
-
-                  {/* Date Range */}
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center space-x-2">
-                      <Calendar className="h-4 w-4 text-slate-400" />
-                      <span className="text-slate-300">{campaign.startDate}</span>
-                    </div>
-                    <span className="text-slate-400">to</span>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-slate-300">{campaign.endDate}</span>
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex space-x-2 pt-2">
-                    <Button size="sm" className="flex-1">
-                      <BarChart3 className="h-4 w-4 mr-2" />
-                      Analytics
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="assets" className="space-y-6">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-white">Marketing Assets</h3>
-            <Button size="sm" onClick={generateTrailer} disabled={isGenerating}>
-              {isGenerating ? (
-                <>
-                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                  Generating...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="h-4 w-4 mr-2" />
-                  AI Generate Trailer
-                </>
-              )}
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {assets.map((asset) => (
-              <Card key={asset.id} className="bg-slate-800/50 border-slate-700">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-1">
-                        {getAssetTypeIcon(asset.type)}
-                        <h3 className="text-white font-semibold">{asset.title}</h3>
-                        <Badge variant="secondary" className="text-xs">
-                          {asset.type}
-                        </Badge>
-                      </div>
-                      <p className="text-slate-400 text-sm">{asset.description}</p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-white font-semibold">{asset.views.toLocaleString()}</p>
-                      <p className="text-slate-400 text-sm">views</p>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Asset Preview */}
-                  <div className="aspect-video bg-slate-700 rounded-lg flex items-center justify-center">
-                    {asset.type === 'trailer' || asset.type === 'social' || asset.type === 'behind_scenes' ? (
-                      <Video className="h-12 w-12 text-slate-500" />
-                    ) : (
-                      <Image className="h-12 w-12 text-slate-500" />
-                    )}
-                  </div>
-
-                  {/* Performance Metrics */}
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p className="text-slate-400">Engagement</p>
-                      <p className="text-white font-medium">{asset.performance.engagement.toLocaleString()}</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">Conversion Rate</p>
-                      <p className="text-white font-medium">{asset.performance.conversion_rate}%</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">Shares</p>
-                      <p className="text-white font-medium">{asset.performance.shares.toLocaleString()}</p>
-                    </div>
-                    <div>
-                      <p className="text-slate-400">Format</p>
-                      <p className="text-white font-medium">{asset.format.toUpperCase()}</p>
-                    </div>
-                  </div>
-
-                  {/* Asset Details */}
-                  <div className="text-sm space-y-1">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Duration:</span>
-                      <span className="text-white">{asset.duration ? `${asset.duration}s` : 'N/A'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Resolution:</span>
-                      <span className="text-white">{asset.resolution}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Language:</span>
-                      <span className="text-white">{asset.language}</span>
-                    </div>
-                  </div>
-
-                  {/* Actions */}
-                  <div className="flex space-x-2 pt-2">
-                    <Button size="sm" className="flex-1">
-                      <Play className="h-4 w-4 mr-2" />
-                      Preview
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <Download className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="social" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Scheduled Posts */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Scheduled Posts</CardTitle>
-                <CardDescription>Upcoming social media content</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-96">
-                  <div className="space-y-4">
-                    {socialPosts.filter(post => post.status === 'scheduled').map((post) => (
-                      <div key={post.id} className="p-4 bg-slate-700/50 rounded-lg">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-2 mb-1">
-                              {getPlatformIcon(post.platform)}
-                              <span className="text-white font-medium capitalize">{post.platform}</span>
-                              <Badge variant="secondary" className={`text-xs ${getStatusColor(post.status)}`}>
-                                {post.status}
-                              </Badge>
-                            </div>
-                            <p className="text-slate-300 text-sm">{post.content}</p>
-                            {post.hashtags.length > 0 && (
-                              <div className="flex flex-wrap gap-1 mt-2">
-                                {post.hashtags.map((tag, index) => (
-                                  <Badge key={index} variant="outline" className="text-xs">
-                                    #{tag}
-                                  </Badge>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                          <div className="text-right">
-                            <p className="text-white text-sm">{post.scheduled_time}</p>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-between text-sm">
-                          <div className="flex space-x-4">
-                            <span className="text-slate-400">Mentions: {post.mentions.length}</span>
-                            <span className="text-slate-400">Hashtags: {post.hashtags.length}</span>
-                          </div>
-                          <div className="flex space-x-1">
-                            <Button size="sm" variant="outline">
-                              <Edit className="h-3 w-3" />
-                            </Button>
-                            <Button size="sm">
-                              <Play className="h-3 w-3" />
-                            </Button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-
-            {/* Posted Content */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">Posted Content</CardTitle>
-                <CardDescription>Published social media posts with performance</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-96">
-                  <div className="space-y-4">
-                    {socialPosts.filter(post => post.status === 'posted').map((post) => (
-                      <div key={post.id} className="p-4 bg-slate-700/50 rounded-lg">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-2 mb-1">
-                              {getPlatformIcon(post.platform)}
-                              <span className="text-white font-medium capitalize">{post.platform}</span>
-                              <Badge variant="secondary" className={`text-xs ${getStatusColor(post.status)}`}>
-                                {post.status}
-                              </Badge>
-                            </div>
-                            <p className="text-slate-300 text-sm">{post.content}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-white font-semibold">{post.performance.likes.toLocaleString()} likes</p>
-                            <p className="text-slate-400 text-sm">{post.performance.engagement_rate}% engagement</p>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-4 gap-4 text-sm mb-3">
-                          <div>
-                            <p className="text-slate-400">Likes</p>
-                            <p className="text-white font-medium">{post.performance.likes.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-slate-400">Shares</p>
-                            <p className="text-white font-medium">{post.performance.shares.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-slate-400">Comments</p>
-                            <p className="text-white font-medium">{post.performance.comments.toLocaleString()}</p>
-                          </div>
-                          <div>
-                            <p className="text-slate-400">Engagement</p>
-                            <p className="text-white font-medium">{post.performance.engagement_rate}%</p>
-                          </div>
-                        </div>
-
-                        <div className="flex space-x-2">
-                          <Button size="sm" variant="outline">
-                            <BarChart3 className="h-3 w-3" />
-                          </Button>
-                          <Button size="sm">
-                            <Share2 className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="insights" className="space-y-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* AI Insights */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white flex items-center">
-                  <Brain className="h-5 w-5 mr-2 text-orange-400" />
-                  AI Insights
-                </CardTitle>
-                <CardDescription>AI-generated marketing recommendations</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-96">
-                  <div className="space-y-4">
-                    {aiInsights.map((insight) => (
-                      <div key={insight.id} className="p-4 bg-slate-700/50 rounded-lg">
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex-1">
-                            <div className="flex items-center space-x-2 mb-1">
-                              <span className={`text-white font-medium ${
-                                insight.impact === 'high' ? 'text-red-400' :
-                                insight.impact === 'medium' ? 'text-yellow-400' :
-                                'text-green-400'
-                              }`}>
-                                {insight.impact.toUpperCase()}
-                              </span>
-                              <Badge variant="secondary" className={`text-xs ${
-                                insight.action_required ? 'text-red-400' : 'text-blue-400'
-                              }`}>
-                                {insight.type}
-                              </Badge>
-                            </div>
-                            <h3 className="text-white font-semibold">{insight.title}</h3>
-                            <p className="text-slate-300 text-sm">{insight.description}</p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-white font-semibold">{insight.confidence}% confidence</p>
-                            <p className="text-slate-400 text-sm">
-                              +{insight.potential_improvement}% improvement
-                            </p>
-                          </div>
-                        </div>
-                        
-                        {insight.suggested_actions.length > 0 && (
-                          <div className="mt-3">
-                            <p className="text-slate-400 text-sm mb-2">Suggested Actions:</p>
-                            <div className="space-y-1">
-                              {insight.suggested_actions.map((action, index) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                  <span className="text-slate-300 text-sm">{action}</span>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
-                        <div className="flex space-x-2 mt-3">
-                          <Button size="sm" variant="outline">
-                            <Eye className="h-3 w-3" />
-                            Details
-                          </Button>
-                          {insight.action_required && (
-                            <Button size="sm">
-                              <Target className="h-3 w-3" />
-                              Apply
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </CardContent>
-            </Card>
-
-            {/* AI Recommendations */}
-            <Card className="bg-slate-800/50 border-slate-700">
-              <CardHeader>
-                <CardTitle className="text-white">AI Recommendations</CardTitle>
-                <CardDescription>Automated optimization suggestions</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="p-4 bg-blue-900/20 border border-blue-700/50 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <TrendingUp className="h-4 w-4 text-blue-400" />
-                      <span className="text-blue-400 font-medium">High Priority</span>
-                    </div>
-                    <p className="text-slate-300 text-sm mb-2">
-                      Increase Instagram ad spend by 20% for 15% ROI improvement
-                    </p>
-                    <Button size="sm" className="mt-2">
-                      Apply Recommendation
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-green-900/20 border border-green-700/50 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <Award className="h-4 w-4 text-green-400" />
-                      <span className="text-green-400 font-medium">Medium Priority</span>
-                    </div>
-                    <p className="text-slate-300 text-sm mb-2">
-                      Launch behind-the-scenes series for 20% engagement increase
-                    </p>
-                    <Button size="sm" className="mt-2" variant="outline">
-                      View Details
-                    </Button>
-                  </div>
-
-                  <div className="p-4 bg-yellow-900/20 border border-yellow-700/50 rounded-lg">
-                    <div className="flex items-center space-x-2 mb-2">
-                      <AlertTriangle className="h-4 w-4 text-yellow-400" />
-                      <span className="text-yellow-400 font-medium">Trend Alert</span>
-                    </div>
-                    <p className="text-slate-300 text-sm mb-2">
-                      TikTok engagement rising 40% for sci-fi content
-                    </p>
-                    <Button size="sm" className="mt-2" variant="outline">
-                      Monitor Trend
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="analytics" className="space-y-6">
+        <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Campaign Performance */}
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-white">Campaign Performance</CardTitle>
-                <CardDescription>ROI and conversion metrics</CardDescription>
+                <CardDescription>Real-time campaign metrics and ROI tracking</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {campaigns.map((campaign) => (
-                    <div key={campaign.id} className="p-3 bg-slate-700/50 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-white font-medium">{campaign.name}</span>
-                        <span className={`font-semibold ${
-                          campaign.performance.roi > 100 ? 'text-green-400' : 'text-yellow-400'
-                        }`}>
-                          {campaign.performance.roi}% ROI
-                        </span>
+                  {campaigns.slice(0, 3).map((campaign) => (
+                    <div key={campaign.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          {getCampaignTypeIcon(campaign.type)}
+                          <h4 className="text-white font-medium">{campaign.name}</h4>
+                          <Badge variant={getStatusColor(campaign.status)} className="text-xs">
+                            {campaign.status}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center space-x-4 text-sm">
+                          <span className="text-slate-400">ROI:</span>
+                          <span className="text-white font-medium">{(campaign.performance.roi * 100).toFixed(1)}%</span>
+                        </div>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <p className="text-slate-400">Impressions</p>
-                          <p className="text-white">{(campaign.performance.impressions / 1000000).toFixed(1)}M</p>
-                        </div>
-                        <div>
-                          <p className="text-slate-400">Conversions</p>
-                          <p className="text-white">{campaign.performance.conversions.toLocaleString()}</p>
-                        </div>
-                        <div>
-                          <p className="text-slate-400">CPA</p>
-                          <p className="text-white">${campaign.performance.cost_per_acquisition.toFixed(2)}</p>
-                        </div>
+                      <div className="text-right">
+                        <p className="text-white font-semibold">${(campaign.spent / 1000).toFixed(1)}k</p>
+                        <p className="text-slate-400 text-xs">of ${(campaign.budget / 1000).toFixed(1)}k</p>
                       </div>
                     </div>
                   ))}
@@ -1044,30 +701,375 @@ export default function AIMarketingAutomationSuite() {
             <Card className="bg-slate-800/50 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-white">Asset Performance</CardTitle>
-                <CardDescription>Marketing asset engagement metrics</CardDescription>
+                <CardDescription>Marketing asset engagement and distribution metrics</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {['trailer', 'poster', 'social', 'behind_scenes'].map((type) => {
-                    const typeAssets = assets.filter(a => a.type === type)
-                    const totalViews = typeAssets.reduce((sum, asset) => sum + asset.views, 0)
-                    const totalEngagement = typeAssets.reduce((sum, asset) => sum + asset.performance.engagement, 0)
-                    return (
-                      <div key={type} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
-                        <div className="flex items-center space-x-2">
-                          {getAssetTypeIcon(type)}
-                          <span className="text-white font-medium capitalize">{type}</span>
+                  {assets.slice(0, 3).map((asset) => (
+                    <div key={asset.id} className="flex items-center justify-between p-3 bg-slate-700/50 rounded-lg">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          {getAssetTypeIcon(asset.type)}
+                          <h4 className="text-white font-medium">{asset.name}</h4>
+                          <Badge variant={getStatusColor(asset.status)} className="text-xs">
+                            {asset.status}
+                          </Badge>
                         </div>
-                        <div className="text-right">
-                          <p className="text-white font-semibold">{(totalViews / 1000000).toFixed(1)}M views</p>
-                          <p className="text-slate-400 text-sm">{(totalEngagement / 1000).toFixed(0)}K engagement</p>
+                        <div className="flex items-center space-x-4 text-sm">
+                          <span className="text-slate-400">Views:</span>
+                          <span className="text-white font-medium">{asset.performance.views.toLocaleString()}</span>
                         </div>
                       </div>
-                    )
-                  })}
+                      <div className="text-right">
+                        <p className="text-white font-semibold">{(asset.performance.engagement * 100).toFixed(1)}%</p>
+                        <p className="text-slate-400 text-xs">engagement</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
+          </div>
+
+          {/* AI Insights */}
+          <Card className="bg-slate-800/50 border-slate-700">
+            <CardHeader>
+              <CardTitle className="text-white flex items-center">
+                <Brain className="h-5 w-5 mr-2 text-blue-400" />
+                AI Marketing Insights
+              </CardTitle>
+              <CardDescription>AI-powered recommendations and performance predictions</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {aiInsights.map((insight) => (
+                  <div key={insight.id} className="p-4 bg-slate-700/50 rounded-lg">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <Badge variant="secondary" className="text-xs">
+                            {insight.type}
+                          </Badge>
+                          <h4 className="text-white font-semibold">{insight.title}</h4>
+                        </div>
+                        <p className="text-slate-300 text-sm">{insight.description}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-white font-semibold">{(insight.confidence * 100).toFixed(0)}%</p>
+                        <p className="text-slate-400 text-xs">confidence</p>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4 text-sm mb-3">
+                      <div>
+                        <p className="text-slate-400">Potential Impact</p>
+                        <p className="text-white font-medium capitalize">{insight.potential_impact}</p>
+                      </div>
+                      <div>
+                        <p className="text-slate-400">Estimated ROI</p>
+                        <p className="text-white font-medium">{(insight.estimated_roi * 100).toFixed(1)}%</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-slate-400 text-sm mb-2">Recommendations:</p>
+                      {insight.recommendations.slice(0, 2).map((rec, index) => (
+                        <p key={index} className="text-slate-300 text-sm">• {rec}</p>
+                      ))}
+                    </div>
+
+                    <div className="flex space-x-2 mt-3">
+                      <Button size="sm" variant="outline">
+                        <Eye className="h-3 w-3" />
+                        View Details
+                      </Button>
+                      <Button size="sm">
+                        <Target className="h-3 w-3" />
+                        Apply
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="campaigns" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {campaigns.map((campaign) => (
+              <Card key={campaign.id} className="bg-slate-800/50 border-slate-700">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        {getCampaignTypeIcon(campaign.type)}
+                        <h3 className="text-white font-semibold">{campaign.name}</h3>
+                        <Badge variant={getStatusColor(campaign.status)} className="text-xs">
+                          {campaign.status}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <span className="text-slate-400">Budget:</span>
+                        <span className="text-white font-medium">${(campaign.budget / 1000).toFixed(1)}k</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-semibold">{(campaign.performance.roi * 100).toFixed(1)}%</p>
+                      <p className="text-slate-400 text-sm">ROI</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Campaign Metrics */}
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-400">Reach</p>
+                      <p className="text-white font-medium">{campaign.performance.reach.toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Engagement Rate</p>
+                      <p className="text-white font-medium">{(campaign.performance.engagement_rate * 100).toFixed(2)}%</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Conversion Rate</p>
+                      <p className="text-white font-medium">{(campaign.performance.conversion_rate * 100).toFixed(2)}%</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">CPA</p>
+                      <p className="text-white font-medium">${campaign.performance.cost_per_acquisition.toFixed(2)}</p>
+                    </div>
+                  </div>
+
+                  {/* Automation Status */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-slate-400 text-sm">Automation</p>
+                      <div className="flex space-x-1">
+                        {campaign.automation.optimization && (
+                          <Badge variant="secondary" className="text-xs">Optimization</Badge>
+                        )}
+                        {campaign.automation.a_b_testing && (
+                          <Badge variant="secondary" className="text-xs">A/B Testing</Badge>
+                        )}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {campaign.automation.workflows.map((workflow) => (
+                        <div key={workflow.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
+                          <div className="flex-1">
+                            <p className="text-white text-sm">{workflow.name}</p>
+                            <p className="text-slate-400 text-xs">{workflow.steps.length} steps</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-white font-medium">{workflow.progress}%</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex space-x-2 pt-2">
+                    <Button size="sm" variant="outline">
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Details
+                    </Button>
+                    {campaign.status === 'active' ? (
+                      <Button size="sm" variant="outline">
+                        <Pause className="h-4 w-4 mr-2" />
+                        Pause
+                      </Button>
+                    ) : (
+                      <Button size="sm">
+                        <Play className="h-4 w-4 mr-2" />
+                        {campaign.status === 'planning' ? 'Launch' : 'Resume'}
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="assets" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {assets.map((asset) => (
+              <Card key={asset.id} className="bg-slate-800/50 border-slate-700">
+                <CardHeader className="pb-3">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        {getAssetTypeIcon(asset.type)}
+                        <h3 className="text-white font-semibold">{asset.name}</h3>
+                        <Badge variant={getStatusColor(asset.status)} className="text-xs">
+                          {asset.status}
+                        </Badge>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <span className="text-slate-400">Project:</span>
+                        <span className="text-white font-medium">{asset.project}</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-semibold">{(asset.performance.engagement * 100).toFixed(1)}%</p>
+                      <p className="text-slate-400 text-xs">engagement</p>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Asset Performance */}
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <p className="text-slate-400">Views</p>
+                      <p className="text-white font-medium">{asset.performance.views.toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Clicks</p>
+                      <p className="text-white font-medium">{asset.performance.clicks.toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Shares</p>
+                      <p className="text-white font-medium">{asset.performance.shares.toLocaleString()}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Conversions</p>
+                      <p className="text-white font-medium">{asset.performance.conversions}</p>
+                    </div>
+                  </div>
+
+                  {/* AI Generation Status */}
+                  {asset.content.ai_generated && (
+                    <div className="p-3 bg-blue-900/20 border border-blue-700/50 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <Brain className="h-4 w-4 text-blue-400" />
+                        <span className="text-blue-400 font-medium">AI Generated</span>
+                      </div>
+                      <p className="text-slate-300 text-sm mb-2">
+                        Confidence: {(asset.content.confidence_score! * 100).toFixed(1)}%
+                      </p>
+                      <div className="flex space-x-2">
+                        <Button size="sm" variant="outline">
+                          <RefreshCw className="h-3 w-3 mr-1" />
+                          Regenerate
+                        </Button>
+                        <Button size="sm">
+                          <Edit className="h-3 w-3 mr-1" />
+                          Edit
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Distribution */}
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-slate-400 text-sm">Distribution</p>
+                      <div className="flex space-x-1">
+                        {asset.distribution.platforms.map((platform) => (
+                          <Badge key={platform} variant="outline" className="text-xs">
+                            {platform}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {asset.distribution.scheduled_posts.map((post) => (
+                        <div key={post.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2">
+                              {getPlatformIcon(post.platform)}
+                              <span className="text-white text-sm">{post.platform}</span>
+                            </div>
+                            <p className="text-slate-400 text-xs">{post.scheduled_time}</p>
+                          </div>
+                          <div className="text-right">
+                            <Badge variant={post.status === 'posted' ? 'secondary' : 'outline'} className="text-xs">
+                              {post.status}
+                            </Badge>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex space-x-2 pt-2">
+                    <Button size="sm" variant="outline">
+                      <Eye className="h-4 w-4 mr-2" />
+                      View Details
+                    </Button>
+                    <Button size="sm">
+                      <Share className="h-4 w-4 mr-2" />
+                      Distribute
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="insights" className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {aiInsights.map((insight) => (
+              <Card key={insight.id} className="bg-slate-800/50 border-slate-700">
+                <CardHeader>
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-1">
+                        <Badge variant="secondary" className="text-xs">
+                          {insight.type}
+                        </Badge>
+                        <h3 className="text-white font-semibold">{insight.title}</h3>
+                      </div>
+                      <div className="flex items-center space-x-2 text-sm">
+                        <span className="text-slate-400">Confidence:</span>
+                        <span className="text-white font-medium">{(insight.confidence * 100).toFixed(0)}%</span>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <Badge variant={insight.potential_impact === 'high' ? 'destructive' : 'secondary'} className="text-xs">
+                        {insight.potential_impact}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <p className="text-slate-300 text-sm mb-4">{insight.description}</p>
+
+                  <div className="grid grid-cols-2 gap-4 text-sm mb-4">
+                    <div>
+                      <p className="text-slate-400">Timeframe</p>
+                      <p className="text-white font-medium">{insight.timeframe}</p>
+                    </div>
+                    <div>
+                      <p className="text-slate-400">Difficulty</p>
+                      <p className="text-white font-medium capitalize">{insight.implementation_difficulty}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <p className="text-slate-400 text-sm mb-2">Key Recommendations:</p>
+                    {insight.recommendations.map((rec, index) => (
+                      <p key={index} className="text-slate-300 text-sm">• {rec}</p>
+                    ))}
+                  </div>
+
+                  <div className="flex space-x-2 pt-4">
+                    <Button size="sm" variant="outline">
+                      <BarChart3 className="h-3 w-3 mr-2" />
+                      Full Analysis
+                    </Button>
+                    <Button size="sm">
+                      <Target className="h-3 w-3 mr-2" />
+                      Implement
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </TabsContent>
       </Tabs>
